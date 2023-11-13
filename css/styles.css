@@ -1,7 +1,7 @@
 /* styling for body*/
 body {
     background-color: #fffad72a;
-    height: 1750px;
+    height: 1000px;
     margin-top: 91.5px;
     width: 500px;
     display: flex;
@@ -18,23 +18,8 @@ nav {
     background-color: lightgray;
 }
 
-nav a {
-    display: block;
-    transition-duration: background-color .22s ease, color .22s ease;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 20px;
-    padding: 10px 1.5rem;
-    color: black;
-    cursor: pointer;
-}
-
-#na {
-    position: relative;
-}
-
 .search {
-    margin-left: 180px;
+    margin-left: 900px;
 }
 
 .searchbar {

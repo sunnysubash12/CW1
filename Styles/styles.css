@@ -1,0 +1,34 @@
+/* styling for body*/
+body {
+    background-color: #fffad72a;
+    height: 1750px;
+    margin-top: 91.5px;
+    width: 500px;
+    display: flex;
+    position: relative;
+}
+
+/* styling for navigation bar*/
+nav {
+    margin: 0 auto;
+    justify-content: space-between;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    background-color: lightgray;
+}
+
+nav a {
+    display: block;
+    transition-duration: background-color .22s ease, color .22s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 20px;
+    padding: 10px 1.5rem;
+    color: black;
+    cursor: pointer;
+}
+
+#na {
+    position: relative;
+}

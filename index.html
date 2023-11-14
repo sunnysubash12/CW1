@@ -23,8 +23,12 @@
                 </form>
 
             </div>
-            <div class="cart"> <button type="submit" @click="showCheckout"><img src="images/cart.png"><b>Basket
-                        {{cartItemCount}}</b></button>
+            <div class="cart"> <button type="submit" @click="showCheckout" v-if="disableCart"><img
+                        src="images/cart.png"><b>Basket {{cartItemCount}}</b></button>
+                <button disabled='disabled' v-else>
+                    <img src="images/cart.png"><b>Basket {{cartItemCount}}</b>
+                </button>
+
             </div>
         </nav>
         <div v-if="showProduct">
@@ -36,32 +40,45 @@
                     <p><b>Availability: </b>{{lesson.availability}}</p>
                 </div>
                 <i :class="lesson.icon"></i>
-                <button @click="addItem(lesson)" v-if="canAddToCart(lesson)"><b>Add to Cart</b></button>
-                <span v-if='lesson.availability === cartCount(lesson.id)'>All out!</span>
-                <span v-else-if="lesson.availability - cartCount(lesson.id) < 5">
-                    Only {{lesson.availability - cartCount(lesson.id)}} left!
+                <button disabled='disabled'  v-if="lesson.availability === 0"><b>Add to Cart</b></button>
+                <button @click="addItem(lesson)" v-if="lesson.availability !== 0"><b>Add to Cart</b></button>
+                <span v-if='lesson.availability === 0'>All out!</span>
+                <span v-else-if="lesson.availability < 5">
+                    Only {{lesson.availability }} left!
                 </span>
                 <span v-else>Buy now!</span>
             </div>
         </div>
         <div v-else>
             <!-- the code for the checkout page -->
-            ...
+            <div class="card" v-for="product in cart">
+                <div class="info">
+                    <p><b>Subject: </b>{{product.subject}}</p>
+                    <p><b>Location: </b>{{product.location}}</p>
+                    <p><b>Price: </b>£{{product.price}}</p>
+                </div>
+                <i :class="product.icon"></i>
+                <button><b>Remove</b></button>
+            </div>
+
         </div>
     </div>
-
-
     <script>
         let app = new Vue({
             el: "#app",
             data: {
                 lessons: [],
                 cart: [],
-                showProduct: true
+                showProduct: true,
             },
             methods: {
                 addItem: function (lesson) {
-                    this.cart.push(lesson.id);
+                    this.cart.push(lesson);
+                    console.log(lesson);
+                    this.lessons[lesson.id].availability -= 1;
+                    console.log(this.cartCount(lesson.id));
+                    console.log(this.lessons[lesson.id]);
+                    console.log(this.lessons[lesson.id].availability);
                 },
                 showCheckout() {
                     this.showProduct = this.showProduct ? false : true;
@@ -69,7 +86,7 @@
                 cartCount(id) {
                     let count = 0;
                     for (let i = 0; i < this.cart.length; i++) {
-                        if (this.cart[i] === id) {
+                        if (this.cart[i].id === id) {
                             count++;
                         }
                     }
@@ -77,12 +94,16 @@
                 },
                 canAddToCart(arrayy) {
                     return arrayy.availability > this.cartCount(arrayy.id);
-                }
+                },
             },
             computed: {
+
                 cartItemCount: function () { // the property name
                     // its value is calculated when it is called
-                    return this.cart.length || "";
+                    return this.cart.length || 0;
+                },
+                disableCart: function () {
+                    return this.cartItemCount > 0;
                 },
             },
 
@@ -104,9 +125,6 @@
                     });
             }
         })
-
-
-
     </script>
 </body>
 

@@ -1,6 +1,7 @@
 {
     "lessons": [
       {
+        "id": 0,
         "subject": "Mathematics",
         "price": 30.00,
         "availability": 5,
@@ -8,6 +9,7 @@
         "icon": "fa-regular fa-percent fa-2xl"
       },
       {
+        "id": 1,
         "subject": "English",
         "price": 25.00,
         "availability": 6,
@@ -15,6 +17,7 @@
         "icon": "fa-regular fa-a fa-2xl"
       },
       {
+        "id": 2,
         "subject": "Science",
         "price": 35.00,
         "availability": 7,
@@ -22,6 +25,7 @@
         "icon": "fa-solid fa-microscope fa-2xl"
       },
       {
+        "id": 3,
         "subject": "Robotics",
         "price": 22.50,
         "availability": 8,
@@ -29,6 +33,7 @@
         "icon": "fa-solid fa-robot fa-2xl"
       },
       {
+        "id": 4,
         "subject": "computer",
         "price": 40.00,
         "availability": 10,
@@ -36,6 +41,7 @@
         "icon": "fa-solid fa-computer fa-2xl"
       },
       {
+        "id": 5,
         "subject": "Art",
         "price": 28.00,
         "availability": 7,
@@ -43,6 +49,7 @@
         "icon": "fa-solid fa-paintbrush fa-2xl"
       },
       {
+        "id": 6,
         "subject": "Music",
         "price": 32.50,
         "availability": 11,
@@ -50,6 +57,7 @@
         "icon":"fa-solid fa-music fa-2xl"
       },
       {
+        "id": 7,
         "subject": "Law",
         "price": 27.50,
         "availability": 12,
@@ -57,6 +65,7 @@
         "icon": "fa-solid fa-scale-balanced fa-2xl"
       },
       {
+        "id": 8,
         "subject": "Fitness",
         "price": 30.00,
         "availability": 15,
@@ -64,6 +73,7 @@
         "icon":"fa-solid fa-bicycle fa-2xl"
       },
       {
+        "id": 9,
         "subject": "Cooking",
         "price": 35.00,
         "availability": 13,

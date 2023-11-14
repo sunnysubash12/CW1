@@ -23,27 +23,69 @@
                 </form>
 
             </div>
-            <div class="cart"> <button type="submit"><img src="images/cart.png"><b>Basket</b></button></div>
-        </nav>
-
-        <div class="card" v-for="lesson in lessons">
-            <div class="info">
-                <p><b>Subject: </b>{{lesson.subject}}</p>
-                <p><b>Location: </b>{{lesson.location}}</p>
-                <p><b>Price: </b>£{{lesson.price}}</p>
-                <p><b>Availability: </b>{{lesson.availability}}</p>
+            <div class="cart"> <button type="submit" @click="showCheckout"><img src="images/cart.png"><b>Basket
+                        {{cartItemCount}}</b></button>
             </div>
-            <i :class="lesson.icon"></i>
-            <button>Add to Cart</button>
+        </nav>
+        <div v-if="showProduct">
+            <div class="card" v-for="lesson in lessons">
+                <div class="info">
+                    <p><b>Subject: </b>{{lesson.subject}}</p>
+                    <p><b>Location: </b>{{lesson.location}}</p>
+                    <p><b>Price: </b>£{{lesson.price}}</p>
+                    <p><b>Availability: </b>{{lesson.availability}}</p>
+                </div>
+                <i :class="lesson.icon"></i>
+                <button @click="addItem(lesson)" v-if="canAddToCart(lesson)"><b>Add to Cart</b></button>
+                <span v-if='lesson.availability === cartCount(lesson.id)'>All out!</span>
+                <span v-else-if="lesson.availability - cartCount(lesson.id) < 5">
+                    Only {{lesson.availability - cartCount(lesson.id)}} left!
+                </span>
+                <span v-else>Buy now!</span>
+            </div>
+        </div>
+        <div v-else>
+            <!-- the code for the checkout page -->
+            ...
         </div>
     </div>
+
 
     <script>
         let app = new Vue({
             el: "#app",
             data: {
-                lessons: []
+                lessons: [],
+                cart: [],
+                showProduct: true
             },
+            methods: {
+                addItem: function (lesson) {
+                    this.cart.push(lesson.id);
+                },
+                showCheckout() {
+                    this.showProduct = this.showProduct ? false : true;
+                },
+                cartCount(id) {
+                    let count = 0;
+                    for (let i = 0; i < this.cart.length; i++) {
+                        if (this.cart[i] === id) {
+                            count++;
+                        }
+                    }
+                    return count;
+                },
+                canAddToCart(arrayy) {
+                    return arrayy.availability > this.cartCount(arrayy.id);
+                }
+            },
+            computed: {
+                cartItemCount: function () { // the property name
+                    // its value is calculated when it is called
+                    return this.cart.length || "";
+                },
+            },
+
             mounted() {
                 // Fetch lessons data from an external JSON file using Fetch API
                 fetch('lessons.json')
@@ -62,6 +104,8 @@
                     });
             }
         })
+
+
 
     </script>
 </body>

@@ -80,18 +80,18 @@ nav {
     }
 }
 
+/* styling for card*/
 .card {
     width: 12%;
     margin: 15px;
     box-sizing: border-box;
     float: left;
     padding-top: 10px;
-    background: #FDFDFD;
 }
 
 .card i {
     float: left;
-    height: 20px;
+    height: 25px;
     display: block;
     text-align: center;
     margin: auto;
@@ -107,8 +107,17 @@ nav {
 
 .card button {
     background: grey;
-    color: #fff;
+    color: black;
     padding: 15px;
     width: 100%;
+    border: 0;
     margin-top: 5px;
+}
+
+.card button:hover {
+    background-color: lightgray;
+}
+
+.card button:disabled:hover {
+    background-color: grey;
 }

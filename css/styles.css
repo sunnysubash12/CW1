@@ -1,9 +1,7 @@
 /* styling for body*/
 body {
     background-color: #fffad72a;
-    height: 1000px;
     margin-top: 91.5px;
-    width: 500px;
     display: flex;
     position: relative;
 }
@@ -80,4 +78,37 @@ nav {
         opacity: 1;
         transform: none;
     }
+}
+
+.card {
+    width: 12%;
+    margin: 15px;
+    box-sizing: border-box;
+    float: left;
+    padding-top: 10px;
+    background: #FDFDFD;
+}
+
+.card i {
+    float: left;
+    height: 20px;
+    display: block;
+    text-align: center;
+    margin: auto;
+    display: block;
+    padding-top: 5px;
+}
+
+.card p {
+    padding-top: 0 8px;
+    padding-left: 5px;
+}
+
+
+.card button {
+    background: grey;
+    color: #fff;
+    padding: 15px;
+    width: 100%;
+    margin-top: 5px;
 }

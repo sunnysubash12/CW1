@@ -1,0 +1,75 @@
+{
+    "lessons": [
+      {
+        "subject": "Mathematics",
+        "price": 30.00,
+        "availability": 5,
+        "location": "New York",
+        "icon": "fa-regular fa-percent fa-2xl"
+      },
+      {
+        "subject": "English",
+        "price": 25.00,
+        "availability": 6,
+        "location": "Los Angeles",
+        "icon": "fa-regular fa-a fa-2xl"
+      },
+      {
+        "subject": "Science",
+        "price": 35.00,
+        "availability": 7,
+        "location": "Chicago",
+        "icon": "fa-solid fa-microscope fa-2xl"
+      },
+      {
+        "subject": "Robotics",
+        "price": 22.50,
+        "availability": 8,
+        "location": "Houston",
+        "icon": "fa-solid fa-robot fa-2xl"
+      },
+      {
+        "subject": "computer",
+        "price": 40.00,
+        "availability": 10,
+        "location": "San Francisco",
+        "icon": "fa-solid fa-computer fa-2xl"
+      },
+      {
+        "subject": "Art",
+        "price": 28.00,
+        "availability": 7,
+        "location": "Miami",
+        "icon": "fa-solid fa-paintbrush fa-2xl"
+      },
+      {
+        "subject": "Music",
+        "price": 32.50,
+        "availability": 11,
+        "location": "Nashville",
+        "icon":"fa-solid fa-music fa-2xl"
+      },
+      {
+        "subject": "Law",
+        "price": 27.50,
+        "availability": 12,
+        "location": "Seattle",
+        "icon": "fa-solid fa-scale-balanced fa-2xl"
+      },
+      {
+        "subject": "Fitness",
+        "price": 30.00,
+        "availability": 15,
+        "location": "Boston",
+        "icon":"fa-solid fa-bicycle fa-2xl"
+      },
+      {
+        "subject": "Cooking",
+        "price": 35.00,
+        "availability": 13,
+        "location": "Austin",
+        "icon": "fa-solid fa-utensils fa-2xl"
+      }
+    ]
+  }
+  

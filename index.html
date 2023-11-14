@@ -6,23 +6,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+    <script src="https://kit.fontawesome.com/5aced6ce5f.js" crossorigin="anonymous"></script>
     <title>School Clasess</title>
 </head>
 
 <body>
-    <!-- Output banner and first part of navigation -->
-    <nav class="navbar navbar-expand-sm fixed-top">
+    <div id="app">
+        <!-- Output banner and first part of navigation -->
+        <nav class="navbar navbar-expand-sm fixed-top">
 
-        <div class="search">
-            <form class="searchbar">
-                <input type="text" placeholder="search">
-                <button type="submit"><img src="images/search.png"></button>
-            </form>
+            <div class="search">
+                <form class="searchbar">
+                    <input type="text" placeholder="search">
+                    <button type="submit"><img src="images/search.png"></button>
+                </form>
 
+            </div>
+            <div class="cart"> <button type="submit"><img src="images/cart.png"><b>Basket</b></button></div>
+        </nav>
+
+        <div class="card" v-for="lesson in lessons">
+            <div class="info">
+                <p><b>Subject: </b>{{lesson.subject}}</p>
+                <p><b>Location: </b>{{lesson.location}}</p>
+                <p><b>Price: </b>£{{lesson.price}}</p>
+                <p><b>Availability: </b>{{lesson.availability}}</p>
+            </div>
+            <i :class="lesson.icon"></i>
+            <button>Add to Cart</button>
         </div>
-        <div class="cart"> <button type="submit"><img src="images/cart.png"><b>Basket</b></button></div>
-    </nav>
     </div>
+
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data: {
+                lessons: []
+            },
+            mounted() {
+                // Fetch lessons data from an external JSON file using Fetch API
+                fetch('lessons.json')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Assign the fetched data to the Vue instance's data property
+                        this.lessons = data.lessons;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching lessons:', error);
+                    });
+            }
+        })
+
+    </script>
 </body>
 
 </html>

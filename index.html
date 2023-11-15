@@ -19,7 +19,7 @@
             <div class="search">
                 <form class="searchbar">
                     <input type="text" placeholder="search">
-                    <button ><i class="fa-solid fa-magnifying-glass fa-lg"></i></i></button>
+                    <button><i class="fa-solid fa-magnifying-glass fa-lg"></i></i></button>
                 </form>
 
             </div>
@@ -31,61 +31,93 @@
 
             </div>
         </nav>
-        <div v-if="showProduct">
-            <div class="card" v-for="lesson in lessons">
-                <div class="info">
-                    <p><b>Subject: </b>{{lesson.subject}}</p>
-                    <p><b>Location: </b>{{lesson.location}}</p>
-                    <p><b>Price: </b>£{{lesson.price}}</p>
-                    <p><b>Availability: </b>{{lesson.availability}}</p>
-                </div>
-                <i :class="lesson.icon"></i>
-                <button disabled='disabled' v-if="lesson.availability === 0"><b>Add to Cart</b></button>
-                <button @click="addItem(lesson)" v-if="lesson.availability !== 0"><b>Add to Cart</b></button>
-                <span v-if='lesson.availability === 0'>All out!</span>
-                <span v-else-if="lesson.availability < 5">
-                    Only {{lesson.availability }} left!
-                </span>
-                <span v-else>Buy now!</span>
-            </div>
-        </div>
-        <div v-else>
-            <!-- the code for the checkout page -->
-            <h2> Cart</h2>
-            <form @submit.prevent="submitForm">
-                <div class="card" v-for="product in cart">
-                    <div class="info">
-                        <p><b>Subject: </b>{{product.subject}}</p>
-                        <p><b>Location: </b>{{product.location}}</p>
-                        <p><b>Price: </b>£{{product.price}}</p>
-                    </div>
-                    <i :class="product.icon"></i>
-                    <button @click="rmItem(product)"><b>Remove</b></button>
-                </div>
-                <div class="c">
-                    <div></div>
-                    <h2>Checkout</h2>
-                    <p>
-                        <strong>First Name:</strong>
-                        <!-- This input field is bound to 'firstName' in the 'order' object -->
-                        <input v-model.trim="order.name" required />
-                    </p>
-                    <p>
-                        <strong>Phone Number:</strong>
-                        <!-- This input field is bound to 'lastName' in the 'order' object -->
-                        <input v-model="order.number" required />
-                    </p>
-                </div>
-                <div>
-                    <h2>Customer Information</h2>
-                    <p>Name: {{order.name}}</p>
-                    <p>Number: {{order.number}}</p>
-                    <button :disabled="!isValidForm">Place Order</button>
-                </div>
-            </form>
-        </div>
 
-    </div>
+        <div v-if="showProduct">
+
+            <div>
+                <p><b>Sort by:</b></p>
+                <div>
+                    <input type="radio" v-model="selectedtype" value="subject" checked>
+                    Subject
+                    </label>
+
+                    <label>
+                        <input type="radio" v-model="selectedtype" value="location">
+                        Location
+                    </label>
+
+                    <label>
+                        <input type="radio" v-model="selectedtype" value="price">
+                        Price
+                    </label>
+
+                    <label>
+                        <input type="radio" v-model="selectedtype" value="availability">
+                        Availability
+                    </label>
+                    <p><b>Order by:</b></p>
+                    <div>
+                        <input type="radio" v-model="selectedorder" value="asc" checked>
+                        Ascending
+                        <input type="radio" v-model="selectedorder" value="desc">
+                        Descending
+                    </div>
+                </div>
+
+                <div class="card" v-for="lesson in sortedProducts">
+                    <div class="info">
+                        <p><b>Subject: </b>{{lesson.subject}}</p>
+                        <p><b>Location: </b>{{lesson.location}}</p>
+                        <p><b>Price: </b>£{{lesson.price}}</p>
+                        <p><b>Availability: </b>{{lesson.availability}}</p>
+                    </div>
+                    <i :class="lesson.icon"></i>
+                    <button disabled='disabled' v-if="lesson.availability === 0"><b>Add to Cart</b></button>
+                    <button @click="addItem(lesson)" v-if="lesson.availability !== 0"><b>Add to Cart</b></button>
+                    <span v-if='lesson.availability === 0'>All out!</span>
+                    <span v-else-if="lesson.availability < 5">
+                        Only {{lesson.availability }} left!
+                    </span>
+                    <span v-else>Buy now!</span>
+                </div>
+            </div>
+            <div v-else>
+                <!-- the code for the checkout page -->
+                <h2> Cart</h2>
+                <form @submit.prevent="submitForm">
+                    <div class="card" v-for="product in cart">
+                        <div class="info">
+                            <p><b>Subject: </b>{{product.subject}}</p>
+                            <p><b>Location: </b>{{product.location}}</p>
+                            <p><b>Price: </b>£{{product.price}}</p>
+                        </div>
+                        <i :class="product.icon"></i>
+                        <button @click="rmItem(product)"><b>Remove</b></button>
+                    </div>
+                    <div class="c">
+                        <div></div>
+                        <h2>Checkout</h2>
+                        <p>
+                            <strong>First Name:</strong>
+                            <!-- This input field is bound to 'firstName' in the 'order' object -->
+                            <input v-model.trim="order.name" required />
+                        </p>
+                        <p>
+                            <strong>Phone Number:</strong>
+                            <!-- This input field is bound to 'lastName' in the 'order' object -->
+                            <input v-model="order.number" required />
+                        </p>
+                    </div>
+                    <div>
+                        <h2>Customer Information</h2>
+                        <p>Name: {{order.name}}</p>
+                        <p>Number: {{order.number}}</p>
+                        <button :disabled="!isValidForm">Place Order</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
     </div>
     <script>
         let app = new Vue({
@@ -98,6 +130,8 @@
                     name: '',
                     number: ''
                 },
+                selectedtype: 'subject',
+                selectedorder: 'asc',
             },
             methods: {
                 addItem: function (lesson) {
@@ -157,6 +191,17 @@
                 },
                 isValidForm: function () {
                     return this.isValidName && this.isValidPhoneNumber;
+                },
+                sortedProducts() {
+                    // the comparison function that defines the order
+                    const factor = this.selectedorder === 'asc' ? 1 : -1;
+                    const compare = (a, b) => { 
+                        if (a[this.selectedtype] < b[this.selectedtype]) return -1 * factor;
+                        if (a[this.selectedtype] > b[this.selectedtype]) return 1 * factor;
+                        return 0;
+                    }
+                    // sort the 'lessons' array and return it
+                    return this.lessons.slice().sort(compare);
                 }
             },
 

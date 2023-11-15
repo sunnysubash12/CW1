@@ -2,7 +2,6 @@
 body {
     background-color: #fffad72a;
     margin-top: 91.5px;
-    display: flex;
 }
 
 /* styling for navigation bar*/
@@ -86,6 +85,7 @@ nav {
     box-sizing: border-box;
     float: left;
     padding-top: 10px;
+    display: flex;
 }
 
 .card i {
@@ -119,4 +119,8 @@ nav {
 
 .card button:disabled:hover {
     background-color: grey;
+}
+
+.c {
+    padding-top: 300px;
 }

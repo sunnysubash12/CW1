@@ -40,7 +40,7 @@
                     <p><b>Availability: </b>{{lesson.availability}}</p>
                 </div>
                 <i :class="lesson.icon"></i>
-                <button disabled='disabled'  v-if="lesson.availability === 0"><b>Add to Cart</b></button>
+                <button disabled='disabled' v-if="lesson.availability === 0"><b>Add to Cart</b></button>
                 <button @click="addItem(lesson)" v-if="lesson.availability !== 0"><b>Add to Cart</b></button>
                 <span v-if='lesson.availability === 0'>All out!</span>
                 <span v-else-if="lesson.availability < 5">
@@ -51,17 +51,41 @@
         </div>
         <div v-else>
             <!-- the code for the checkout page -->
-            <div class="card" v-for="product in cart">
-                <div class="info">
-                    <p><b>Subject: </b>{{product.subject}}</p>
-                    <p><b>Location: </b>{{product.location}}</p>
-                    <p><b>Price: </b>£{{product.price}}</p>
+            <h2> Cart</h2>
+            <form @submit.prevent="submitForm">
+                <div class="card" v-for="product in cart">
+                    <div class="info">
+                        <p><b>Subject: </b>{{product.subject}}</p>
+                        <p><b>Location: </b>{{product.location}}</p>
+                        <p><b>Price: </b>£{{product.price}}</p>
+                    </div>
+                    <i :class="product.icon"></i>
+                    <button @click="rmItem(product)"><b>Remove</b></button>
                 </div>
-                <i :class="product.icon"></i>
-                <button><b>Remove</b></button>
-            </div>
-
+                <div class="c">
+                    <div></div>
+                    <h2>Checkout</h2>
+                    <p>
+                        <strong>First Name:</strong>
+                        <!-- This input field is bound to 'firstName' in the 'order' object -->
+                        <input v-model.trim="order.name" required />
+                    </p>
+                    <p>
+                        <strong>Phone Number:</strong>
+                        <!-- This input field is bound to 'lastName' in the 'order' object -->
+                        <input v-model="order.number"  required />
+                    </p>
+                </div>
+                <div>
+                    <h2>Customer Information</h2>
+                    <p>Name: {{order.name}}</p>
+                    <p>Number: {{order.number}}</p>
+                    <button :disabled="!isValidForm">Place Order</button>
+                </div>
+            </form>
         </div>
+
+    </div>
     </div>
     <script>
         let app = new Vue({
@@ -70,15 +94,28 @@
                 lessons: [],
                 cart: [],
                 showProduct: true,
+                order: {
+                    name: '',
+                    number: ''
+                },
             },
             methods: {
                 addItem: function (lesson) {
                     this.cart.push(lesson);
-                    console.log(lesson);
                     this.lessons[lesson.id].availability -= 1;
-                    console.log(this.cartCount(lesson.id));
-                    console.log(this.lessons[lesson.id]);
-                    console.log(this.lessons[lesson.id].availability);
+                },
+                rmItem: function (carts) {
+                    this.lessons[carts.id].availability += 1;
+                    // Find the index of the product in the cart array
+                    const index = this.cart.findIndex(item => item.id === carts.id);
+
+                    // Remove the product from the cart array using the index
+                    if (index !== -1) {
+                        this.cart.splice(index, 1);
+                    }
+                    if (this.cart.length === 0) {
+                        this.showProduct = true;
+                    }
                 },
                 showCheckout() {
                     this.showProduct = this.showProduct ? false : true;
@@ -95,9 +132,15 @@
                 canAddToCart(arrayy) {
                     return arrayy.availability > this.cartCount(arrayy.id);
                 },
+                submitForm() {
+                    alert('Order submitted!')
+                    // Remove all elements from the cart array
+                    this.cart.splice(0, this.cart.length);
+                    this.showProduct = true;
+
+                },
             },
             computed: {
-
                 cartItemCount: function () { // the property name
                     // its value is calculated when it is called
                     return this.cart.length || 0;
@@ -105,6 +148,16 @@
                 disableCart: function () {
                     return this.cartItemCount > 0;
                 },
+
+                isValidName: function () {
+                    return /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(this.order.name);
+                },
+                isValidPhoneNumber: function () {
+                    return /^\d{10}$/.test(this.order.number);
+                },
+                isValidForm: function () {
+                    return this.isValidName && this.isValidPhoneNumber;
+                }
             },
 
             mounted() {

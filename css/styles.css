@@ -15,22 +15,21 @@ nav {
 }
 
 .search {
-    margin-left: 900px;
+    margin-left: 1060px;
 }
 
 .searchbar {
     width: 100%;
     max-width: 700px;
-    background: rgba(255, 255, 255, 0.2);
+    background-color: white;
     display: flex;
     align-items: center;
     border-radius: 60px;
     padding: 10px 20px;
-    backdrop-filter: blur(4px) saturate(180%);
 }
 
 .searchbar input {
-    background: transparent;
+    background: white;
     flex: 1;
     border: 0;
     outline: none;
@@ -38,20 +37,6 @@ nav {
     color: black;
 }
 
-.searchbar button img {
-    width: 15px;
-    margin-bottom: 5px;
-}
-
-.searchbar button {
-    margin-left: 50px;
-    border: 0;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    background: lightcoral;
-    cursor: pointer;
-}
 
 .cart button img {
     width: 38px;

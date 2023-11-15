@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
     <script src="https://kit.fontawesome.com/5aced6ce5f.js" crossorigin="anonymous"></script>
+    <!-- Add this line to include the list.js library for search functionality-->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js"></script>
     <title>School Clasess</title>
 </head>
 
@@ -17,11 +19,9 @@
         <nav class="navbar navbar-expand-sm fixed-top">
 
             <div class="search">
-                <form class="searchbar">
+                <div class="searchbar">
                     <input type="text" placeholder="search">
-                    <button><i class="fa-solid fa-magnifying-glass fa-lg"></i></i></button>
-                </form>
-
+                </div>
             </div>
             <div class="cart"> <button type="submit" @click="showCheckout" v-if="disableCart"><i
                         class="fa-solid fa-cart-shopping fa-lg"></i><b>Basket {{cartItemCount}}</b></button>
@@ -63,7 +63,6 @@
                         Descending
                     </div>
                 </div>
-
                 <div class="card" v-for="lesson in sortedProducts">
                     <div class="info">
                         <p><b>Subject: </b>{{lesson.subject}}</p>
@@ -81,42 +80,41 @@
                     <span v-else>Buy now!</span>
                 </div>
             </div>
-            <div v-else>
-                <!-- the code for the checkout page -->
-                <h2> Cart</h2>
-                <form @submit.prevent="submitForm">
-                    <div class="card" v-for="product in cart">
-                        <div class="info">
-                            <p><b>Subject: </b>{{product.subject}}</p>
-                            <p><b>Location: </b>{{product.location}}</p>
-                            <p><b>Price: </b>£{{product.price}}</p>
-                        </div>
-                        <i :class="product.icon"></i>
-                        <button @click="rmItem(product)"><b>Remove</b></button>
+        </div>
+        <div v-else>
+            <!-- the code for the checkout page -->
+            <h2> Cart</h2>
+            <form @submit.prevent="submitForm">
+                <div class="card" v-for="product in cart">
+                    <div class="info">
+                        <p><b>Subject: </b>{{product.subject}}</p>
+                        <p><b>Location: </b>{{product.location}}</p>
+                        <p><b>Price: </b>£{{product.price}}</p>
                     </div>
-                    <div class="c">
-                        <div></div>
-                        <h2>Checkout</h2>
-                        <p>
-                            <strong>First Name:</strong>
-                            <!-- This input field is bound to 'firstName' in the 'order' object -->
-                            <input v-model.trim="order.name" required />
-                        </p>
-                        <p>
-                            <strong>Phone Number:</strong>
-                            <!-- This input field is bound to 'lastName' in the 'order' object -->
-                            <input v-model="order.number" required />
-                        </p>
-                    </div>
-                    <div>
-                        <h2>Customer Information</h2>
-                        <p>Name: {{order.name}}</p>
-                        <p>Number: {{order.number}}</p>
-                        <button :disabled="!isValidForm">Place Order</button>
-                    </div>
-                </form>
-            </div>
-
+                    <i :class="product.icon"></i>
+                    <button @click="rmItem(product)"><b>Remove</b></button>
+                </div>
+                <div class="c">
+                    <div></div>
+                    <h2>Checkout</h2>
+                    <p>
+                        <strong>First Name:</strong>
+                        <!-- This input field is bound to 'firstName' in the 'order' object -->
+                        <input v-model.trim="order.name" required />
+                    </p>
+                    <p>
+                        <strong>Phone Number:</strong>
+                        <!-- This input field is bound to 'lastName' in the 'order' object -->
+                        <input v-model="order.number" required />
+                    </p>
+                </div>
+                <div>
+                    <h2>Customer Information</h2>
+                    <p>Name: {{order.name}}</p>
+                    <p>Number: {{order.number}}</p>
+                    <button :disabled="!isValidForm">Place Order</button>
+                </div>
+            </form>
         </div>
     </div>
     <script>
@@ -195,14 +193,15 @@
                 sortedProducts() {
                     // the comparison function that defines the order
                     const factor = this.selectedorder === 'asc' ? 1 : -1;
-                    const compare = (a, b) => { 
+                    const compare = (a, b) => {
                         if (a[this.selectedtype] < b[this.selectedtype]) return -1 * factor;
                         if (a[this.selectedtype] > b[this.selectedtype]) return 1 * factor;
                         return 0;
                     }
                     // sort the 'lessons' array and return it
                     return this.lessons.slice().sort(compare);
-                }
+                },
+
             },
 
             mounted() {

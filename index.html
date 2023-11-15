@@ -19,14 +19,14 @@
             <div class="search">
                 <form class="searchbar">
                     <input type="text" placeholder="search">
-                    <button type="submit"><img src="images/search.png"></button>
+                    <button ><i class="fa-solid fa-magnifying-glass fa-lg"></i></i></button>
                 </form>
 
             </div>
-            <div class="cart"> <button type="submit" @click="showCheckout" v-if="disableCart"><img
-                        src="images/cart.png"><b>Basket {{cartItemCount}}</b></button>
+            <div class="cart"> <button type="submit" @click="showCheckout" v-if="disableCart"><i
+                        class="fa-solid fa-cart-shopping fa-lg"></i><b>Basket {{cartItemCount}}</b></button>
                 <button disabled='disabled' v-else>
-                    <img src="images/cart.png"><b>Basket {{cartItemCount}}</b>
+                    <i class="fa-solid fa-cart-shopping fa-lg"></i><b>Basket {{cartItemCount}}</b>
                 </button>
 
             </div>
@@ -73,7 +73,7 @@
                     <p>
                         <strong>Phone Number:</strong>
                         <!-- This input field is bound to 'lastName' in the 'order' object -->
-                        <input v-model="order.number"  required />
+                        <input v-model="order.number" required />
                     </p>
                 </div>
                 <div>

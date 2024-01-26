@@ -177,15 +177,20 @@
 
                     // Identify the lessons in the submitted order
                     const ids = this.cart.map(item => item._id);
+                    const update = {};
 
                     // Decrease the availability count for each ordered lesson
                     ids.forEach(lessonId => {
                         const orderedLesson = this.lessons.find(lesson => lesson._id === lessonId);
                         if (orderedLesson) {
                             // Decrease the availability count based on the number of items ordered
-                            orderedLesson.availability -= 1;
+                            update = {
+                                availability: orderedLesson.availability
+                            }
                         }
                     });
+
+                    log.console(update);
 
                     fetch("http://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/orders", {
                         method: "POST",
@@ -199,7 +204,6 @@
                         }
                         return response.json();
                     }).then(json => {
-                        alert("Success: " + json.acknowledged);
                         console.log("Success: " + json.acknowledged);
                     }).catch(error => {
                         console.error('Error submitting order:', error);
@@ -211,7 +215,7 @@
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify({ids}),
+                        body: JSON.stringify(update),
                     }).then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');

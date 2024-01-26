@@ -174,13 +174,18 @@
                         lessons: this.cart.map(item => item._id),
                         number_of_items: this.cart.length
                     };
-                    
-                    // Now, update the lesson availability using a PUT request
-                    const lessonAvailabilityUpdates = this.cart.map(item =>({
-                        availability: item.availability - 1,
-                    }));
 
-                    const ids =this.cart.map(item => item._id);
+                    // Identify the lessons in the submitted order
+                    const ids = this.cart.map(item => item._id);
+
+                    // Decrease the availability count for each ordered lesson
+                    ids.forEach(lessonId => {
+                        const orderedLesson = this.lessons.find(lesson => lesson._id === lessonId);
+                        if (orderedLesson) {
+                            // Decrease the availability count based on the number of items ordered
+                            orderedLesson.availability -= 1;
+                        }
+                    });
 
                     fetch("http://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/orders", {
                         method: "POST",
@@ -201,12 +206,12 @@
                     });
 
                     //Assuming you have a route on the server to handle updates, replace '/lessons' with the actual route
-                    fetch("http://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons/"+ids, {
+                    fetch("http://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons", {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(lessonAvailabilityUpdates),
+                        body: JSON.stringify({ids}),
                     }).then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
@@ -217,68 +222,68 @@
                     }).catch(error => {
                         console.error('Error updating lesson availability:', error);
                     })
-                .catch(error => {
-                    console.error('Error submitting order:', error);
-                });
+                        .catch(error => {
+                            console.error('Error submitting order:', error);
+                        });
 
-        alert('Order submitted!')
-        // Remove all elements from the cart array
-        this.cart.splice(0, this.cart.length);
-        this.showProduct = true;
-        this.order.name = '';
-        this.order.number = '';
+                    alert('Order submitted!')
+                    // Remove all elements from the cart array
+                    this.cart.splice(0, this.cart.length);
+                    this.showProduct = true;
+                    this.order.name = '';
+                    this.order.number = '';
                 },
             },
-        computed: {
-            cartItemCount: function () { // the property name
-                // its value is calculated when it is called
-                return this.cart.length || 0;
-            },
-            disableCart: function () {
-                return this.cartItemCount > 0;
+            computed: {
+                cartItemCount: function () { // the property name
+                    // its value is calculated when it is called
+                    return this.cart.length || 0;
+                },
+                disableCart: function () {
+                    return this.cartItemCount > 0;
+                },
+
+                isValidName: function () {
+                    return /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(this.order.name);
+                },
+                isValidPhoneNumber: function () {
+                    return /^\d{10}$/.test(this.order.number);
+                },
+                isValidForm: function () {
+                    return this.isValidName && this.isValidPhoneNumber;
+                },
+                // sortedProducts() {
+                //     // the comparison function that defines the order
+                //     const factor = this.selectedorder === 'asc' ? 1 : -1;
+                //     const compare = (a, b) => {
+                //         if (a[this.selectedtype] < b[this.selectedtype]) return -1 * factor;
+                //         if (a[this.selectedtype] > b[this.selectedtype]) return 1 * factor;
+                //         return 0;
+                //     }
+                //     // sort the 'lessons' array and return it
+                //     return this.lessons.slice().sort(compare);
+                // },
+
             },
 
-            isValidName: function () {
-                return /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(this.order.name);
-            },
-            isValidPhoneNumber: function () {
-                return /^\d{10}$/.test(this.order.number);
-            },
-            isValidForm: function () {
-                return this.isValidName && this.isValidPhoneNumber;
-            },
-            // sortedProducts() {
-            //     // the comparison function that defines the order
-            //     const factor = this.selectedorder === 'asc' ? 1 : -1;
-            //     const compare = (a, b) => {
-            //         if (a[this.selectedtype] < b[this.selectedtype]) return -1 * factor;
-            //         if (a[this.selectedtype] > b[this.selectedtype]) return 1 * factor;
-            //         return 0;
-            //     }
-            //     // sort the 'lessons' array and return it
-            //     return this.lessons.slice().sort(compare);
-            // },
-
-        },
-
-        mounted() {
-            // Fetch lessons data from an external JSON file using Fetch API
-            //localhost:3000/lessons
-            fetch('http://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Assign the fetched data to the Vue instance's data property
-                    this.lessons = data;
-                })
-                .catch(error => {
-                    console.error('Error fetching lessons:', error);
-                });
-        }
+            mounted() {
+                // Fetch lessons data from an external JSON file using Fetch API
+                //localhost:3000/lessons
+                fetch('http://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Assign the fetched data to the Vue instance's data property
+                        this.lessons = data;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching lessons:', error);
+                    });
+            }
         })
     </script>
 </body>

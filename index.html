@@ -193,6 +193,32 @@
                         console.error('Error submitting order:', error);
                     });
 
+                    // Now, update the lesson availability using a PUT request
+                    const lessonAvailabilityUpdates = this.cart.map(item => ({
+                        id: item._id,
+                        availability: item.availability - 1,
+                    }));
+
+                    //Assuming you have a route on the server to handle updates, replace '/lessons' with the actual route
+                    fetch("http://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons", {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(lessonAvailabilityUpdates),
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    }).then(json => {
+                        console.log("Lesson availability updated:", json);
+                    }).catch(error => {
+                        console.error('Error updating lesson availability:', error);
+                    }).catch(error => {
+                        console.error('Error submitting order:', error);
+                    });
+
                     alert('Order submitted!')
                     // Remove all elements from the cart array
                     this.cart.splice(0, this.cart.length);

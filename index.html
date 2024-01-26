@@ -194,9 +194,8 @@
                     });
 
                     // Now, update the lesson availability using a PUT request
-                    const lessonAvailabilityUpdates = this.cart.map(item => ({
-                        id: item._id,
-                        availability: item.availability - 1,
+                    const lessonAvailabilityUpdates = this.cart.map(item => item._id({
+                        availability: item.availability - 1
                     }));
 
                     //Assuming you have a route on the server to handle updates, replace '/lessons' with the actual route

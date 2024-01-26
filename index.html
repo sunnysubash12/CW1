@@ -177,16 +177,14 @@
 
                     // Identify the lessons in the submitted order
                     const ids = this.cart.map(item => item._id);
-                    const update = {};
 
                     // Decrease the availability count for each ordered lesson
                     ids.forEach(lessonId => {
                         const orderedLesson = this.lessons.find(lesson => lesson._id === lessonId);
                         if (orderedLesson) {
                             // Decrease the availability count based on the number of items ordered
-                            update = {
-                                availability: orderedLesson.availability
-                            }
+                            availability: orderedLesson.availability;
+
                         }
                     });
 

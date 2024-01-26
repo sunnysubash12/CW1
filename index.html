@@ -165,13 +165,40 @@
                     return arrayy.availability > this.cartCount(arrayy.id);
                 },
                 submitForm() {
+
+                    const newOrder = {
+                        // Assuming you have the necessary properties for newProduct
+                        // Adjust this according to your data structure
+                        full_name: this.order.name,
+                        phone_number: this.order.number,
+                        lessons: this.cart.map(item => item._id),
+                        number_of_items: this.cart.length
+                    };
+
+                    fetch("http://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/orders", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(newOrder),
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    }).then(json => {
+                        alert("Success: " + json.acknowledged);
+                        console.log("Success: " + json.acknowledged);
+                    }).catch(error => {
+                        console.error('Error submitting order:', error);
+                    });
+
                     alert('Order submitted!')
                     // Remove all elements from the cart array
                     this.cart.splice(0, this.cart.length);
                     this.showProduct = true;
                     this.order.name = '';
                     this.order.number = '';
-
                 },
             },
             computed: {

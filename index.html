@@ -188,14 +188,14 @@
                         }
                     });
 
-                    log.console({ids});
+                    log.console(ids);
 
                     fetch("http://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/orders", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify({ids}),
+                        body: JSON.stringify(ids),
                     }).then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');

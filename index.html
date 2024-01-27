@@ -207,26 +207,26 @@
                         console.error('Error submitting order:', error);
                     });
 
-                    //Assuming you have a route on the server to handle updates, replace '/lessons' with the actual route
-                    fetch("https://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons", {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(update),
-                    }).then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    }).then(json => {
-                        console.log("Lesson availability updated:", json);
-                    }).catch(error => {
-                        console.error('Error updating lesson availability:', error);
-                    })
-                        .catch(error => {
-                            console.error('Error submitting order:', error);
-                        });
+                    // //Assuming you have a route on the server to handle updates, replace '/lessons' with the actual route
+                    // fetch("https://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons", {
+                    //     method: "PUT",
+                    //     headers: {
+                    //         "Content-Type": "application/json",
+                    //     },
+                    //     body: JSON.stringify(update),
+                    // }).then(response => {
+                    //     if (!response.ok) {
+                    //         throw new Error('Network response was not ok');
+                    //     }
+                    //     return response.json();
+                    // }).then(json => {
+                    //     console.log("Lesson availability updated:", json);
+                    // }).catch(error => {
+                    //     console.error('Error updating lesson availability:', error);
+                    // })
+                    //     .catch(error => {
+                    //         console.error('Error submitting order:', error);
+                    //     });
 
                     alert('Order submitted!')
                     // Remove all elements from the cart array
@@ -271,7 +271,7 @@
             mounted() {
                 // Fetch lessons data from an external JSON file using Fetch API
                 //localhost:3000/lessons
-                fetch('http://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons')
+                fetch('https://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons')
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');

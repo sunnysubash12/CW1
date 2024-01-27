@@ -271,7 +271,7 @@
             mounted() {
                 // Fetch lessons data from an external JSON file using Fetch API
                 //localhost:3000/lessons
-                fetch('https://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons')
+                fetch('http://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons')
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');

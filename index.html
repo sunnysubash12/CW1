@@ -132,6 +132,29 @@
                 selectedorder: 'asc',
             },
             methods: {
+                setLessonAvailability(lessonID,availability){
+                    //Assuming you have a route on the server to handle updates, replace '/lessons' with the actual route
+                    fetch(`https://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons/${lessonID}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({availability:availability}),
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    }).then(json => {
+                        console.log("Lesson availability updated:", json);
+                    }).catch(error => {
+                        console.error('Error updating lesson availability:', error);
+                    })
+                        .catch(error => {
+                            console.error('Error submitting order:', error);
+                        });
+
+                },
                 addItem: function (lesson) {
                     this.cart.push(lesson);
                     this.lessons[lesson.id].availability -= 1;
@@ -167,8 +190,6 @@
                 submitForm() {
 
                     const newOrder = {
-                        // Assuming you have the necessary properties for newProduct
-                        // Adjust this according to your data structure
                         full_name: this.order.name,
                         phone_number: this.order.number,
                         lessons: this.cart.map(item => item._id),
@@ -181,12 +202,13 @@
                     // Decrease the availability count for each ordered lesson
                     ids.forEach(lessonId => {
                         const orderedLesson = this.lessons.find(lesson => lesson._id === lessonId);
+                        console.log(orderedLesson);
                         if (orderedLesson) {
                             // Decrease the availability count based on the number of items ordered
-                            availability: orderedLesson.availability;
-
+                            this.setLessonAvailability(lessonId,orderedLesson.availability);
                         }
                     });
+
 
                     console.log(ids);
 
@@ -207,26 +229,7 @@
                         console.error('Error submitting order:', error);
                     });
 
-                    // //Assuming you have a route on the server to handle updates, replace '/lessons' with the actual route
-                    // fetch("https://school-classes-env.eba-xbp2nmqm.eu-west-2.elasticbeanstalk.com/lessons", {
-                    //     method: "PUT",
-                    //     headers: {
-                    //         "Content-Type": "application/json",
-                    //     },
-                    //     body: JSON.stringify(update),
-                    // }).then(response => {
-                    //     if (!response.ok) {
-                    //         throw new Error('Network response was not ok');
-                    //     }
-                    //     return response.json();
-                    // }).then(json => {
-                    //     console.log("Lesson availability updated:", json);
-                    // }).catch(error => {
-                    //     console.error('Error updating lesson availability:', error);
-                    // })
-                    //     .catch(error => {
-                    //         console.error('Error submitting order:', error);
-                    //     });
+                    
 
                     alert('Order submitted!')
                     // Remove all elements from the cart array
